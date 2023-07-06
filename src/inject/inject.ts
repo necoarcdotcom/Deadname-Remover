@@ -64,7 +64,7 @@ function initalizeWords() {
   }
 }
 
-const acceptableCharacters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_あいおえうかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆらりるれろわをんアイオエウカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲンー１２３４５６７８９０－｜￥・／｜「」【】『』＜＞ａｂｃｄｅｆｇｈｉｊｋｌｍｎｏｐｑｒｓｔｕｖｗｘｙｚＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴＵＶＷＸＺ';　// i fcking hate full-width characters -__-
+const acceptableCharacters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_あいおえうかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆらりるれろわをんアイオエウカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲンー｜￥・／｜「」【】『』＜＞ａｂｃｄｅｆｇｈｉｊｋｌｍｎｏｐｑｒｓｔｕｖｗｘｙｚＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴＵＶＷＸＺ';　// i fcking hate full-width characters -__-
 
 function replaceText(text: string, isTitle?: boolean) {
   let currentIndex = 0;

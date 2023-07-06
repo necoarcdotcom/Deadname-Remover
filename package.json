@@ -1,6 +1,6 @@
 {
-  "name": "deadname-remover",
-  "version": "1.1.2",
+  "name": "gender-remover",
+  "version": "1.0.6",
   "description": "An easy to use browser plugin to automatically remove and replace deadnames",
   "private": true,
   "type": "module",
@@ -29,7 +29,7 @@
     "non-binary",
     "gender"
   ],
-  "author": "Ari Gibson",
+  "author": "Ari Gibson (modified by necoarc)",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/arimgibson/Deadname-Remover/issues"
@@ -42,7 +42,7 @@
     "@typescript-eslint/parser": "^5.48.2",
     "chalk": "^5.2.0",
     "esbuild": "^0.17.3",
-    "eslint": "^8.32.0",
+    "eslint": "^8.44.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-airbnb-typescript": "^17.0.0",
     "eslint-plugin-import": "^2.27.5",

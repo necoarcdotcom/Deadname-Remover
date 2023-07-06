@@ -1,31 +1,25 @@
 /**
-  * @author: WillHayCode
+  * @author: WillHayCode (forked & rewritten by gumi)
   */
 
-export type Name = {
-  first: string;
-  middle: string;
-  last: string;
+export type Gender = {
+  gender: string;
 };
 
 export type UserSettings = {
-  name: Name;
-  deadname: Name[];
+  prefGen: Gender;
+  oriGen: Gender[];
   enabled: boolean;
   stealthMode: boolean;
   highlight: boolean;
 };
 
 export const DEFAULT_SETTINGS: UserSettings = {
-  name: {
-    first: '',
-    middle: '',
-    last: '',
+  prefGen: {
+    gender: '',
   },
-  deadname: [{
-    first: '',
-    middle: '',
-    last: '',
+  oriGen: [{
+    gender: '',
   }],
   enabled: true,
   stealthMode: false,

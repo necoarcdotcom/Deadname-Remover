@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Deadname-Remover
-// @version      1.1.2
-// @description  Replace dead names with preferred names.
+// @version      1.0.6
+// @description  Replace old genders with new genders.
 // @author       William Hayward & Ari Gibson
 // @license      MIT
 // @match        *://*/*
@@ -16,21 +16,17 @@
 
 (function () {
   const settings = {
-    name: {
-      first: '',
-      middle: '',
-      last: '',
+    prefGen: {
+      gender: '',
     },
-    deadname: [
+    oriGen: [
       {
-        first: '',
-        middle: '',
-        last: '',
+        gender: '',
       },
     ],
     enabled: true,
     stealthMode: false,
     highlight: false,
   };
-  DeadnameRemover.start(settings);
+  GenderChangerstart(settings);
 }());

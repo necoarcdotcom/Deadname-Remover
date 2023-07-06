@@ -96,8 +96,8 @@ async function sendMessage(getMessage: (url: string, frameUrl: string) => any) {
 function loadSettings() {
   return new Promise<UserSettings>((resolve) => {
     chrome.storage.sync.get(DEFAULT_SETTINGS, (settings: UserSettings) => {
-      if (!Array.isArray(settings.deadname)) {
-        settings.deadname = [settings.deadname];
+      if (!Array.isArray(settings.oriGen)) {
+        settings.oriGen = [settings.oriGen];
         saveSettings(settings);
       }
       resolve(settings);
@@ -128,7 +128,7 @@ function enableStealth() {
   }
   chrome.browserAction.setIcon({ path: 'icons/stealth.svg' });
   chrome.browserAction.setPopup({ popup: 'popup/stealth-popup.html' });
-  chrome.browserAction.setTitle({ title: 'An experimental adblocker' });
+  chrome.browserAction.setTitle({ title: 'An open-source adblocker?' });
 }
 
 function disableStealth() {
@@ -137,7 +137,7 @@ function disableStealth() {
   }
   chrome.browserAction.setIcon({ path: 'icons/icon19.png' });
   chrome.browserAction.setPopup({ popup: 'popup/popup.html' });
-  chrome.browserAction.setTitle({ title: 'Deadname Remover Options' });
+  chrome.browserAction.setTitle({ title: 'Gender Changer Options (working title)' });
 }
 
 function onUIMessage(port: chrome.runtime.Port, { type, data, id }) {

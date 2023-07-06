@@ -1,7 +1,8 @@
-import { Name, UserSettings, DEFAULT_SETTINGS } from '../types';
+import { Gender, UserSettings, DEFAULT_SETTINGS } from '../types';
 
 const port = chrome.runtime.connect({ name: 'popup' });
-let deadNameCounter = 0;
+// remove counter bc its unneeded (maybe)
+let oriGenCounter = 0;
 let counter = 0;
 let settings: UserSettings = null;
 
@@ -43,32 +44,26 @@ getData().then(($settings: UserSettings) => {
   readyStateListeners.clear();
 });
 
-function saveCurrentDeadName(index: number) {
-  const deadName: Name = {
-    first: (document.getElementById('txtFirstDeadname') as HTMLInputElement).value.trim(),
-    middle: (document.getElementById('txtMidDeadname') as HTMLInputElement).value.trim(),
-    last: (document.getElementById('txtLastDeadname') as HTMLInputElement).value.trim(),
+function saveCurrentoriGen(index: number) {
+  const oriGen: Gender = {
+    gender: (document.getElementById('txtogGen') as HTMLInputElement).value.trim(),
   };
-  if (deadName.first || deadName.middle || deadName.last) {
-    settings.deadname[index] = deadName;
+  if (oriGen.gender) {
+    settings.oriGen[index] = oriGen;
   } else {
-    settings.deadname.splice(index, 1);
+    settings.oriGen.splice(index, 1);
   }
 }
 
 function loadDOM() {
-  (document.getElementById('txtFirstName') as HTMLInputElement).value = settings.name.first;
-  (document.getElementById('txtMidName') as HTMLInputElement).value = settings.name.middle;
-  (document.getElementById('txtLastName') as HTMLInputElement).value = settings.name.last;
+  (document.getElementById('txtPrefGen') as HTMLInputElement).value = settings.prefGen.gender;
 
-  (document.getElementById('txtFirstDeadname') as HTMLInputElement).value = settings.deadname[deadNameCounter].first;
-  (document.getElementById('txtMidDeadname') as HTMLInputElement).value = settings.deadname[deadNameCounter].middle;
-  (document.getElementById('txtLastDeadname') as HTMLInputElement).value = settings.deadname[deadNameCounter].last;
+  (document.getElementById('txtogGen') as HTMLInputElement).value = settings.oriGen[oriGenCounter].gender;
 
   (document.getElementById('stealth-option') as HTMLInputElement).checked = settings.stealthMode;
   (document.getElementById('highlight-option') as HTMLInputElement).checked = settings.highlight;
 
-  renderDeadName(0, 0);
+  renderoriGen(0, 0);
 }
 
 function changeSettings($settings: Partial<UserSettings>) {
@@ -84,17 +79,15 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 const saveSettings = () => {
-  const name: Name = {
-    first: (document.getElementById('txtFirstName') as HTMLInputElement).value.trim(),
-    middle: (document.getElementById('txtMidName') as HTMLInputElement).value.trim(),
-    last: (document.getElementById('txtLastName') as HTMLInputElement).value.trim(),
+  const prefGen: Gender = {
+    gender: (document.getElementById('txtPrefGen') as HTMLInputElement).value.trim(),
   };
 
-  saveCurrentDeadName(deadNameCounter);
+  saveCurrentoriGen(oriGenCounter);
 
   const $settings: Partial<UserSettings> = {
-    name,
-    deadname: settings.deadname,
+    prefGen,
+    oriGen: settings.oriGen,
     stealthMode: settings.stealthMode,
     highlight: settings.highlight,
   };
@@ -121,11 +114,11 @@ for (let i = 0, len = coll.length; i < len; i++) {
 const leftArrow = document.querySelector('.leftArrow');
 const rightArrow = document.querySelector('.rightArrow');
 leftArrow.addEventListener('click', () => {
-  renderDeadName(deadNameCounter, --deadNameCounter);
+  renderoriGen(oriGenCounter, --oriGenCounter);
 });
 
 rightArrow.addEventListener('click', () => {
-  renderDeadName(deadNameCounter, ++deadNameCounter);
+  renderoriGen(oriGenCounter, ++oriGenCounter);
 });
 
 (document.getElementById('stealth-option') as HTMLInputElement).addEventListener('change', (e: Event) => {
@@ -138,41 +131,36 @@ rightArrow.addEventListener('click', () => {
 
 function onChangeInput() {
   function changeInput() {
-    const deadName: Name = {
-      first: (document.getElementById('txtFirstDeadname') as HTMLInputElement).value.trim(),
-      middle: (document.getElementById('txtMidDeadname') as HTMLInputElement).value.trim(),
-      last: (document.getElementById('txtLastDeadname') as HTMLInputElement).value.trim(),
+    const oriGend: Gender = {
+      gender: (document.getElementById('txtogGen') as HTMLInputElement).value.trim(),
     };
-    if (deadName.first || deadName.middle || deadName.last) {
+    if (oriGend.gender) {
       rightArrow.classList.toggle('active', true);
     } else {
-      saveCurrentDeadName(deadNameCounter);
-      renderDeadName(deadNameCounter, deadNameCounter, { disableSave: true });
+      saveCurrentoriGen(oriGenCounter);
+      renderoriGen(oriGenCounter, oriGenCounter, { disableSave: true });
     }
   }
-  (document.getElementById('txtFirstDeadname') as HTMLInputElement).addEventListener('change', changeInput);
-  (document.getElementById('txtMidDeadname') as HTMLInputElement).addEventListener('change', changeInput);
-  (document.getElementById('txtLastDeadname') as HTMLInputElement).addEventListener('change', changeInput);
+  (document.getElementById('txtogGen') as HTMLInputElement).addEventListener('change', changeInput);
 }
+// if this even works i'll be damned, i deadass have no clue what im doing
 
 onChangeInput();
 
-function renderDeadName(oldIndex: number, newIndex: number, options: { disableSave: boolean } = { disableSave: false }) {
+function renderoriGen(oldIndex: number, newIndex: number, options: { disableSave: boolean } = { disableSave: false }) {
   if (!options.disableSave) {
-    saveCurrentDeadName(oldIndex);
+    saveCurrentoriGen(oldIndex);
   }
   if (newIndex === 0) {
     leftArrow.classList.toggle('active', false);
   } else {
     leftArrow.classList.toggle('active', true);
   }
-  if (newIndex === settings.deadname.length) {
-    settings.deadname.push(DEFAULT_SETTINGS.deadname[0]);
+  if (newIndex === settings.oriGen.length) {
+    settings.oriGen.push(DEFAULT_SETTINGS.oriGen[0]);
     rightArrow.classList.toggle('active', false);
   } else {
     rightArrow.classList.toggle('active', true);
   }
-  (document.getElementById('txtFirstDeadname') as HTMLInputElement).value = settings.deadname[newIndex].first;
-  (document.getElementById('txtMidDeadname') as HTMLInputElement).value = settings.deadname[newIndex].middle;
-  (document.getElementById('txtLastDeadname') as HTMLInputElement).value = settings.deadname[newIndex].last;
+  (document.getElementById('txtogGen') as HTMLInputElement).value = settings.oriGen[newIndex].gender;
 }

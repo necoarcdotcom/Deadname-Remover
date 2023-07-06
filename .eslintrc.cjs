@@ -12,5 +12,5 @@ module.exports = {
   },
   plugins: ['@typescript-eslint'],
   rules: {},
-  ignorePatterns: ['deadname-remover.*.js'],
+  ignorePatterns: ['gender-remover.*.js'],
 };

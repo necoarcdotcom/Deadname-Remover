@@ -1,10 +1,10 @@
-import { UserSettings, DEFAULT_SETTINGS, Name } from '../types';
+import { UserSettings, DEFAULT_SETTINGS, Gender } from '../types';
 import { domAction } from './dom';
 
 const cachedWords = new Map<string, string>();
 let observer: MutationObserver = null;
-let aliveName: Name = null;
-let deadName: Name[] = null;
+let prefGen: Gender = null;
+let oriGen: Gender[] = null;
 let newWords: string[] = [];
 let oldWords: string[] = [];
 let revert = false;
@@ -16,8 +16,8 @@ export function start(settings: UserSettings = DEFAULT_SETTINGS) {
     return;
   }
   highlight = settings.highlight;
-  aliveName = settings.name;
-  deadName = settings.deadname;
+  prefGen = settings.prefGen;
+  oriGen = settings.oriGen;
   initalizeWords();
   replaceDOMWithNewWords();
 }
@@ -38,50 +38,33 @@ function cleanUp() {
 function initalizeWords() {
   newWords = [];
   oldWords = [];
-  const isAliveNameFirst = !!aliveName.first;
-  const isAliveNameMiddle = !!aliveName.middle;
-  const isAliveNameLast = !!aliveName.last;
-  for (let x = 0, len = deadName.length; x < len; x++) {
-    const isDeadNameFirst = !!deadName[x].first;
-    const isDeadNameMiddle = !!deadName[x].middle;
-    const isDeadNameLast = !!deadName[x].last;
+  const isPreferredGender = !!prefGen.gender;
+  for (let x = 0, len = oriGen.length; x < len; x++) {
+    const isOriginalGender = !!oriGen[x].gender;
     if (
-      isAliveNameFirst && isDeadNameFirst
-            && isAliveNameMiddle && isDeadNameMiddle
-            && isAliveNameLast && isDeadNameLast
+      isPreferredGender && isOriginalGender
     ) {
-      const fullAlive = `${aliveName.first} ${aliveName.middle} ${aliveName.last}`;
-      const fullDead = `${deadName[x].first} ${deadName[x].middle} ${deadName[x].last}`;
-      newWords.push(fullAlive);
-      oldWords.push(fullDead);
+      const fullPreffered = `${prefGen.gender}`;
+      const fullOriginal = `${oriGen[x].gender}`;
+      newWords.push(fullPreffered);
+      oldWords.push(fullOriginal);
     }
 
-    if (isAliveNameFirst && isDeadNameFirst) {
-      newWords.push(aliveName.first);
-      oldWords.push(deadName[x].first);
-    }
-
-    if (isDeadNameMiddle) {
-      newWords.push(isAliveNameMiddle ? aliveName.middle : '');
-      oldWords.push(deadName[x].middle);
-    }
-
-    if (isAliveNameLast && isDeadNameLast) {
-      newWords.push(aliveName.last);
-      oldWords.push(deadName[x].last);
+    if (isPreferredGender && isOriginalGender) {
+      newWords.push(prefGen.gender);
+      oldWords.push(oriGen[x].gender);
     }
 
     if (
-      isAliveNameFirst && isDeadNameFirst
-            && isAliveNameLast && isDeadNameLast
+      isPreferredGender && isOriginalGender
     ) {
-      newWords.push(aliveName.first + aliveName.last);
-      oldWords.push(deadName[x].first + deadName[x].last);
+      newWords.push(prefGen.gender);
+      oldWords.push(oriGen[x].gender);
     }
   }
 }
 
-const acceptableCharacters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_';
+const acceptableCharacters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_あいおえうかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆらりるれろわをんアイオエウカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲンー１２３４５６７８９０－｜￥・／｜「」【】『』＜＞ａｂｃｄｅｆｇｈｉｊｋｌｍｎｏｐｑｒｓｔｕｖｗｘｙｚＡＢＣＤＥＦＧＨＩＪＫＬＭＮＯＰＱＲＳＴＵＶＷＸＺ';　// i fcking hate full-width characters -__-
 
 function replaceText(text: string, isTitle?: boolean) {
   let currentIndex = 0;

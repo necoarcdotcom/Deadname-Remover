@@ -4,9 +4,9 @@ import pjson from '../package.json';
 import types from '../src/types';
 
 async function api() {
-  await fs.remove('deadname-remover.require.js');
-  await fs.remove('deadname-remover.meta.js');
-  await fs.remove('deadname-remover.user.js');
+  await fs.remove('gender-remover.require.js');
+  await fs.remove('gender-remover.meta.js');
+  await fs.remove('gender-remover.user.js');
 
   const settings = JSON.stringify(types.DEFAULT_SETTINGS, null, '\t').split('\n');
   for (let x = 0, len = settings.length; x < len; x++) {
@@ -15,9 +15,9 @@ async function api() {
 
   await build({
     entryPoints: ['src/inject/inject.ts'],
-    outfile: 'deadname-remover.require.js',
+    outfile: 'gender-remover.require.js',
     format: 'iife',
-    globalName: 'DeadnameRemover',
+    globalName: 'GenderRemover',
     minifySyntax: true,
     bundle: true,
     sourcemap: false,
@@ -27,10 +27,10 @@ async function api() {
 
   const data = [
     '// ==UserScript==',
-    '// @name         Deadname-Remover',
+    '// @name         Gender-Changer',
     `// @version      ${pjson.version}`,
-    '// @description  Replace dead names with preffered names.',
-    '// @author       William Hayward',
+    '// @description  Replaces your birth gender with a gender of your choice.',
+    '// @author       gumidotnet',
     '// @license      MIT',
     '// @match        *://*/*',
     '// @grant        none',
@@ -45,21 +45,21 @@ async function api() {
     '(function() {',
     `${indent}'use strict';`,
     `${indent}const settings = ${settings.join('\n')}`,
-    `${indent}DeadnameRemover.start(settings);`,
+    `${indent}GenderRemover.start(settings);`,
     '})();',
     '',
   ].join('\n');
-  await fs.writeFile('deadname-remover.user.js', data, { encoding: 'utf8' });
+  await fs.writeFile('gender-remover.user.js', data, { encoding: 'utf8' });
 
   const metaData = [
     '// ==UserScript==',
-    '// @name        Deadname-Remover',
+    '// @name        Gender-Changer',
     `// @version     ${pjson.version}`,
     '// @namespace   https://github.com/WillHayCode/Deadname-Remover',
     '// ==/UserScript==',
     '',
   ].join('\n');
-  await fs.writeFile('deadname-remover.meta.js', metaData, { encoding: 'utf8' });
+  await fs.writeFile('gender-remover.meta.js', metaData, { encoding: 'utf8' });
 
   await fs.remove('types.js');
 }
